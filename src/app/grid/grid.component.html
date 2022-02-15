@@ -1,0 +1,6 @@
+<section fxFlex="500px"
+         fxLayout="column"
+         fxLayoutAlign="center center">
+  <app-row *ngFor="let row of rows; index as i"
+           [rowID]="i"></app-row>
+</section>
