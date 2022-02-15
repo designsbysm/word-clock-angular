@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { hours, minutes, words } from './word-list';
+import { Word, WordsService } from './words.service';
 
-type Grid = string[][]
-
-type Word = {
-  characters: string
-  start: number
-  row: number
-};
+export type Grid = string[][]
 
 @Injectable({
   providedIn: 'root',
@@ -20,13 +14,15 @@ export class GridService {
   random = new BehaviorSubject<Grid>([]);
   time = new BehaviorSubject<Grid>([]);
 
-  constructor() {
+  constructor(
+    private wordsService: WordsService,
+  ) {
     this.cells = 13;
     this.rows = 8;
 
     const empty = this.generate();
     const random = this.fillRandom(empty);
-    const time = this.fillTime(empty);
+    const time = this.fillTime();
 
     this.random.next(random);
     this.time.next(time);
@@ -53,63 +49,68 @@ export class GridService {
     }));
   }
 
-  private fillTime(grid: Grid): Grid {
-    const update = [...grid];
-
-    const fillWord = (g: Grid, w: Word) => {
-      w.characters.split('')
-        .forEach((char, index) => {
-          g[w.row][w.start + index] = char;
-        });
-
-    };
-
+  private fillTime(): Grid {
+    const grid = this.generate();
     const now = new Date();
     let hour = now.getHours();
     const minute = now.getMinutes();
 
-    fillWord(update, words['its']);
+    let word = this.wordsService.word('its');
+    this.fillWord(grid, word);
     let minutesSet = false;
 
     if (minute > 2 && minute <= 7 || minute > 53 && minute < 58) {
-      fillWord(update, minutes[5]);
-      fillWord(update, words['minutes']);
+      word = this.wordsService.minute(5);
+      this.fillWord(grid, word);
+      word = this.wordsService.word('minutes');
+      this.fillWord(grid, word);
       minutesSet = true;
 
     } else if (minute > 7 && minute <= 13 || minute > 47 && minute <= 53) {
-      fillWord(update, minutes[10]);
-      fillWord(update, words['minutes']);
+      word = this.wordsService.minute(10);
+      this.fillWord(grid, word);
+      word = this.wordsService.word('minutes');
+      this.fillWord(grid, word);
       minutesSet = true;
 
     } else if (minute > 13 && minute <= 17 || minute > 42 && minute <= 47) {
-      fillWord(update, minutes[15]);
-      fillWord(update, words['a']);
+      word = this.wordsService.minute(15);
+      this.fillWord(grid, word);
+      word = this.wordsService.word('a');
+      this.fillWord(grid, word);
       minutesSet = true;
 
     } else if (minute > 17 && minute <= 25 || minute > 35 && minute <= 42) {
-      fillWord(update, minutes[20]);
-      fillWord(update, words['minutes']);
+      word = this.wordsService.minute(20);
+      this.fillWord(grid, word);
+      word = this.wordsService.word('minutes');
+      this.fillWord(grid, word);
       minutesSet = true;
 
     } else if (minute > 25 && minute <= 35) {
-      fillWord(update, minutes[30]);
-      fillWord(update, words['a']);
+      word = this.wordsService.minute(30);
+      this.fillWord(grid, word);
+      word = this.wordsService.word('a');
+      this.fillWord(grid, word);
       minutesSet = true;
 
     }
 
     if (minutesSet) {
       if (minute <= 35) {
-        fillWord(update, words['past']);
+        word = word = this.wordsService.word('past');
+        this.fillWord(grid, word);
       } else {
-        fillWord(update, words['to']);
+        word = word = this.wordsService.word('to');
+        this.fillWord(grid, word);
         hour++;
       }
     } else {
       if (minute >= 30) {
         hour++;
       }
-      fillWord(update, words['oclock']);
+      word = word = this.wordsService.word('oclock');
+      this.fillWord(grid, word);
     }
 
     if (hour > 12) {
@@ -117,9 +118,17 @@ export class GridService {
     } else if (hour === 0) {
       hour = 12;
     }
-    fillWord(update, hours[hour]);
+    word = this.wordsService.hour(hour);
+    this.fillWord(grid, word);
 
-    return update;
+    return grid;
+  }
+
+  private fillWord(grid: Grid, word: Word): void {
+    word.characters.split('')
+      .forEach((char, index) => {
+        grid[word.row][word.start + index] = char;
+      });
   }
 
   private generate(): Grid {

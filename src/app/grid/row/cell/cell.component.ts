@@ -15,7 +15,9 @@ export class CellComponent implements OnInit, OnDestroy {
   random = '';
   time = '';
 
-  constructor(private gridService: GridService) { }
+  constructor(
+    private gridService: GridService,
+  ) { }
 
   ngOnInit(): void {
     this.subscriptions.push(this.gridService.random.subscribe(grid => {

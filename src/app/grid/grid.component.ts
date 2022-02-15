@@ -10,7 +10,9 @@ import { GridService } from './grid.service';
 export class GridComponent {
   rows: string[];
 
-  constructor(private gridService: GridService) {
+  constructor(
+    private gridService: GridService,
+  ) {
     this.rows = Array(this.gridService.rows)
       .fill('');
   }

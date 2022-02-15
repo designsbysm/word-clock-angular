@@ -11,7 +11,9 @@ export class RowComponent {
   @Input() rowID = -1;
   cells: string[];
 
-  constructor(private gridService: GridService) {
+  constructor(
+    private gridService: GridService,
+  ) {
     this.cells = Array(this.gridService.cells)
       .fill('');
   }
