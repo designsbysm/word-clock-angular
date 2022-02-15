@@ -22,7 +22,7 @@ export class GridService {
 
     const empty = this.generate();
     const random = this.fillRandom(empty);
-    const time = this.fillTime();
+    const time = this.fillTime(empty);
 
     this.random.next(random);
     this.time.next(time);
@@ -49,68 +49,60 @@ export class GridService {
     }));
   }
 
-  private fillTime(): Grid {
-    const grid = this.generate();
+  private fillTime(grid: Grid): Grid {
+    const fillWord = (word: Word): void => {
+      word.characters.split('')
+        .forEach((char, index) => {
+          grid[word.row][word.start + index] = char;
+        });
+    };
+
     const now = new Date();
     let hour = now.getHours();
     const minute = now.getMinutes();
 
-    let word = this.wordsService.word('its');
-    this.fillWord(grid, word);
+    fillWord(this.wordsService.word('its'));
     let minutesSet = false;
 
     if (minute > 2 && minute <= 7 || minute > 53 && minute < 58) {
-      word = this.wordsService.minute(5);
-      this.fillWord(grid, word);
-      word = this.wordsService.word('minutes');
-      this.fillWord(grid, word);
+      fillWord(this.wordsService.minute(5));
+      fillWord(this.wordsService.word('minutes'));
       minutesSet = true;
 
     } else if (minute > 7 && minute <= 13 || minute > 47 && minute <= 53) {
-      word = this.wordsService.minute(10);
-      this.fillWord(grid, word);
-      word = this.wordsService.word('minutes');
-      this.fillWord(grid, word);
+      fillWord(this.wordsService.minute(10));
+      fillWord(this.wordsService.word('minutes'));
       minutesSet = true;
 
     } else if (minute > 13 && minute <= 17 || minute > 42 && minute <= 47) {
-      word = this.wordsService.minute(15);
-      this.fillWord(grid, word);
-      word = this.wordsService.word('a');
-      this.fillWord(grid, word);
+      fillWord(this.wordsService.minute(15));
+      fillWord(this.wordsService.word('a'));
       minutesSet = true;
 
     } else if (minute > 17 && minute <= 25 || minute > 35 && minute <= 42) {
-      word = this.wordsService.minute(20);
-      this.fillWord(grid, word);
-      word = this.wordsService.word('minutes');
-      this.fillWord(grid, word);
+      fillWord(this.wordsService.minute(20));
+      fillWord(this.wordsService.word('minutes'));
       minutesSet = true;
 
     } else if (minute > 25 && minute <= 35) {
-      word = this.wordsService.minute(30);
-      this.fillWord(grid, word);
-      word = this.wordsService.word('a');
-      this.fillWord(grid, word);
+      fillWord(this.wordsService.minute(30));
+      fillWord(this.wordsService.word('a'));
       minutesSet = true;
 
     }
 
     if (minutesSet) {
       if (minute <= 35) {
-        word = word = this.wordsService.word('past');
-        this.fillWord(grid, word);
+        fillWord(this.wordsService.word('past'));
       } else {
-        word = word = this.wordsService.word('to');
-        this.fillWord(grid, word);
+        fillWord(this.wordsService.word('to'));
         hour++;
       }
     } else {
       if (minute >= 30) {
         hour++;
       }
-      word = word = this.wordsService.word('oclock');
-      this.fillWord(grid, word);
+      fillWord(this.wordsService.word('oclock'));
     }
 
     if (hour > 12) {
@@ -118,17 +110,9 @@ export class GridService {
     } else if (hour === 0) {
       hour = 12;
     }
-    word = this.wordsService.hour(hour);
-    this.fillWord(grid, word);
+    fillWord(this.wordsService.hour(hour));
 
     return grid;
-  }
-
-  private fillWord(grid: Grid, word: Word): void {
-    word.characters.split('')
-      .forEach((char, index) => {
-        grid[word.row][word.start + index] = char;
-      });
   }
 
   private generate(): Grid {
