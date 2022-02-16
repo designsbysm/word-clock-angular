@@ -123,4 +123,11 @@ export class GridService {
       .fill([])
       .map(() => [...row]);
   }
+
+  refresh(): void {
+    const empty = this.generate();
+    const time = this.fillTime(empty);
+
+    this.time.next(time);
+  }
 }
