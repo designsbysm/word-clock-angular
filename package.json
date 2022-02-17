@@ -1,14 +1,15 @@
 {
   "name": "word-clock",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "ngrok": "ngrok http 4200 --host-header=\"localhost:4200\" --subdomain=designsbysm -bind-tls=true",
+    "sw:build": "ng build --watch --c sw",
+    "sw:start": "run-p sw:build sw:serve",
+    "sw:serve": "http-server dist -c-1 -a localhost -p 4200 -s -o"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~13.2.2",
     "@angular/common": "~13.2.2",
@@ -19,6 +20,7 @@
     "@angular/platform-browser": "~13.2.2",
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
+    "@angular/service-worker": "~13.2.2",
     "rxjs": "~7.5.4",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
@@ -32,12 +34,14 @@
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^8.9.0",
+    "http-server": "^14.1.0",
     "jasmine-core": "~4.0.0",
     "karma": "~6.3.16",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "npm-run-all": "^4.1.5",
     "typescript": "~4.5.5"
   }
 }
