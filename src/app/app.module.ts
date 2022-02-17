@@ -5,6 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { CellComponent } from './grid/row/cell/cell.component';
 import { GridComponent } from './grid/grid.component';
+import { RoutingModule } from './routing.module';
 import { RowComponent } from './grid/row/row.component';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { RowComponent } from './grid/row/row.component';
   imports: [
     BrowserModule,
     FlexLayoutModule,
+    RoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
