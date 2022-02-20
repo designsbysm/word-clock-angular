@@ -1,6 +1,6 @@
-<section fxFlex="500px"
-         fxLayout="column"
-         fxLayoutAlign="center center">
+<section gdRows="repeat(8, 1fr)">
   <app-row *ngFor="let row of rows; index as i"
+           gdColumn
+           gdAlignColumns="center"
            [rowID]="i"></app-row>
 </section>

@@ -3,7 +3,25 @@ body {
   background: #000;
   color: #333;
   font-family: "Source Code Pro", monospace;
-  font-size: 36px;
+  font-size: 16px;
   font-weight: 300;
   margin: 0;
 }
+
+// @media only screen and (min-width: 600px) {
+//   body {
+//     font-size: 30px;
+//   }
+// }
+
+// @media only screen and (min-width: 960px) {
+//   body {
+//     font-size: 50px;
+//   }
+// }
+
+// @media only screen and (min-width: 1280px) {
+//   body {
+//     font-size: 60px;
+//   }
+// }

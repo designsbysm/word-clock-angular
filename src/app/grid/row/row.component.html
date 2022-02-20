@@ -1,5 +1,7 @@
-<section fxLayout>
+<section gdColumns="repeat(13, 1fr)">
   <app-cell *ngFor="let cell of cells; index as i"
+            gdRow
+            gdAlignRows="center"
             [colID]="i"
             [rowID]="rowID"></app-cell>
 </section>
