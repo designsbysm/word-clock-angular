@@ -1,6 +1,6 @@
 {
-  "name": "word-clock",
-  "version": "0.0.0",
+  "name": "@designsbysm/word-clock-angular",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "ng serve",
