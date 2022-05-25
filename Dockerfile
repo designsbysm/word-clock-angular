@@ -1,13 +1,13 @@
-FROM node:16.14.0-alpine
+FROM node:16.15.0-alpine
 
-ENV PATH /app/node_modules/.bin:$PATH
+RUN npm install -g serve
+
 WORKDIR /app
 
-COPY ./package.json package.json
-RUN npm install --silent
-RUN npm install serve --silent
+COPY package.json .
+RUN npm install
 
 COPY . .
 RUN npm run build
 
-CMD ["serve", "-s", "dist"]
+CMD serve --single dist
