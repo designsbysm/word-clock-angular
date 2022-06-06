@@ -125,5 +125,8 @@
       }
     }
   },
-  "defaultProject": "word-clock"
+  "defaultProject": "word-clock",
+  "cli": {
+    "analytics": false
+  }
 }
